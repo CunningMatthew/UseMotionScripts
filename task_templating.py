@@ -116,8 +116,11 @@ def get_tasks_for_project(project_id):
     tasks = tasks_data["tasks"]
     return tasks
 
-
 def generate_task_template(workspace, project, tasks):
+
+    #Date Format implmenet
+    creation_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     template_tasks = []
     for task in tasks:
         task_post_data = {
@@ -129,7 +132,10 @@ def generate_task_template(workspace, project, tasks):
         }
         template_tasks.append(task_post_data)
 
-    template = {"tasks": template_tasks}
+    template = {
+        "template_creation_date": creation_time,  #Added Creation.
+        "tasks": template_tasks
+    }
 
     filename = f"{workspace['name'].replace(' ', '_')}.{project['name'].replace(' ', '_')}.json"
     filepath = os.path.join(TEMPLATES_DIR, filename)
